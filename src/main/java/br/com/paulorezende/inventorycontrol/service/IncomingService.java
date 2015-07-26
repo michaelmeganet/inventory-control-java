@@ -9,5 +9,7 @@ public interface IncomingService {
 	void save(Incoming incoming);
 
 	List<Incoming> findAll();
+	
+	Incoming findById(String id);
 
 }

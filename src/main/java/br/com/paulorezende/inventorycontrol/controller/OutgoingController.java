@@ -19,7 +19,7 @@ public class OutgoingController {
     private OutgoingService outgoingService;
 
     @RequestMapping(method = RequestMethod.PUT)
-    public void createUser(@RequestBody @Valid final Outgoing outgoing) {
+    public void update(@RequestBody @Valid final Outgoing outgoing) {
         outgoingService.update(outgoing);
     }
 

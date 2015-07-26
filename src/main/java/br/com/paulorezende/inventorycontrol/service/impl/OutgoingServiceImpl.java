@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.paulorezende.inventorycontrol.model.Incoming;
 import br.com.paulorezende.inventorycontrol.model.Outgoing;
-import br.com.paulorezende.inventorycontrol.repository.OutgoingRepository;
 import br.com.paulorezende.inventorycontrol.service.IncomingService;
 import br.com.paulorezende.inventorycontrol.service.OutgoingService;
 
@@ -14,21 +13,18 @@ import br.com.paulorezende.inventorycontrol.service.OutgoingService;
 public class OutgoingServiceImpl implements OutgoingService {
 
 	@Autowired
-	private OutgoingRepository outgoingRepository;
-	
-	@Autowired
 	private IncomingService incomingService;
 
     @Override
     @Transactional
     public void update(final Outgoing outgoing) {
-    	Incoming incoming = outgoingRepository.findById(outgoing.getId());
+    	Incoming incoming = incomingService.findById(outgoing.getId());
     	removeQuantity(incoming, outgoing.getQuantity());
     	incomingService.save(incoming);
     }
 
 	private void removeQuantity(Incoming incoming, Integer quantity) {
-		if (incoming.getQuantity() > quantity) {
+		if (incoming.getQuantity() > 0 && incoming.getQuantity() > quantity) {
 			incoming.setQuantity(incoming.getQuantity() - quantity);
 		}
 	}

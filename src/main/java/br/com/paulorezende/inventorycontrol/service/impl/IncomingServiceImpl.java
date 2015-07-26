@@ -27,4 +27,9 @@ public class IncomingServiceImpl implements IncomingService {
 		return incomingRepository.findAll();
 	}
 
+	@Override
+	public Incoming findById(String id) {
+		return incomingRepository.findById(id);
+	}
+
 }

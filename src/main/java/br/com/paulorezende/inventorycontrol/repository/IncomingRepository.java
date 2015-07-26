@@ -9,5 +9,7 @@ public interface IncomingRepository {
 	public void save(Incoming incoming);
 
 	public List<Incoming> findAll();
+
+	Incoming findById(String id);
 	
 }

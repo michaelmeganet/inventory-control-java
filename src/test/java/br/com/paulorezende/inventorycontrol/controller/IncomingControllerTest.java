@@ -1,45 +1,45 @@
 package br.com.paulorezende.inventorycontrol.controller;
 
-import org.junit.Before;
+import java.util.List;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import br.com.paulorezende.inventorycontrol.Fixture;
 import br.com.paulorezende.inventorycontrol.model.Incoming;
 import br.com.paulorezende.inventorycontrol.service.IncomingService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IncomingControllerTest {
 
-    @Mock
-    private IncomingService userService;
+    private static final int LIST_QUANTITY = 3;
+
+	@Mock
+    private IncomingService incomingService;
 
     @InjectMocks
-    private IncomingController userController = new IncomingController();
-
-    @Before
-    public void setUp() {
-    	MockitoAnnotations.initMocks(this);
-    }
+    private IncomingController incomingController = new IncomingController();
 
     @Test
-    public void shouldCreateUser() throws Exception {
-        final Incoming savedUser = stubServiceToReturnStoredUser();
-        final Incoming user = new Incoming();
-        /*Incoming returnedUser = */userController.post(user);
-        // verify user was passed to UserService
-        Mockito.verify(userService, Mockito.times(1)).save(user);
-//        assertEquals("Returned user should come from the service", savedUser, returnedUser);
+    public void shouldCreateIncoming() throws Exception {
+        final Incoming incoming = new Incoming();
+        incomingController.post(incoming);
+        Mockito.verify(incomingService, Mockito.times(1)).save(incoming);
     }
-
-    private Incoming stubServiceToReturnStoredUser() {
-        final Incoming user = new Incoming();
-//        Mockito.when(userService.save(Mockito.any(Incoming.class))).thenReturn(user);
-        return user;
+    
+    @Test
+    public void shouldListAllIncomings() throws Exception {
+    	Mockito.when(incomingService.findAll()).thenReturn(Fixture.getAllIncomings(3, 10));
+    	
+    	List<Incoming> list = incomingController.list();
+    	
+    	Assert.assertNotNull(list);
+    	Assert.assertEquals(LIST_QUANTITY, list.size());
     }
 
 }

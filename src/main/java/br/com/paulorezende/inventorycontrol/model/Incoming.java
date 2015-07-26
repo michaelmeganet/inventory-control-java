@@ -1,5 +1,10 @@
 package br.com.paulorezende.inventorycontrol.model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,10 +13,20 @@ public class Incoming {
 	
 	@Id
 	private String id;
+	
+	@NotNull
 	private String name;
+	
+	@NotNull
 	private String description;
+	
+	@Min(value = 1)
 	private Integer value;
+	
+	@Min(value = 1)
 	private Integer quantity;
+	
+	@Min(value = 1)
 	private Integer minQuantity;
 	
 	public String getId() {

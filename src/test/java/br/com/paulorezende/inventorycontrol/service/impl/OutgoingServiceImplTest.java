@@ -1,37 +1,67 @@
 package br.com.paulorezende.inventorycontrol.service.impl;
 
+import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import br.com.paulorezende.inventorycontrol.Fixture;
 import br.com.paulorezende.inventorycontrol.model.Incoming;
 import br.com.paulorezende.inventorycontrol.model.Outgoing;
-import br.com.paulorezende.inventorycontrol.repository.OutgoingRepository;
 import br.com.paulorezende.inventorycontrol.service.IncomingService;
 import br.com.paulorezende.inventorycontrol.service.OutgoingService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OutgoingServiceImplTest {
 
-	//not find by id
-	//quantity <= 0
-	//remove quantity < quantity
-	//update quantity
+	private static final Integer ZERO_QUANTITY = 0;
+	private static final Integer FIVE_QUANTITY = 5;
+	private static final Integer TEN_QUANTITY = 10;
 
-    @Override
-    @Transactional
-    public void update(final Outgoing outgoing) {
-    	Incoming incoming = outgoingRepository.findById(outgoing.getId());
-    	removeQuantity(incoming, outgoing.getQuantity());
-    	incomingService.save(incoming);
+	@Mock
+	private IncomingService incomingService;
+	
+	@InjectMocks
+	private OutgoingService outgoingService = new OutgoingServiceImpl();
+	
+    @Test
+    public void shouldNotUpdateIncomingWhenQuantityIsZero() {
+    	Incoming incoming = Fixture.getOneIncoming(ZERO_QUANTITY);
+    	
+    	Mockito.when(incomingService.findById((String) Mockito.any())).thenReturn(incoming);
+    	
+    	Outgoing out = Fixture.getOneOutgoing(TEN_QUANTITY);
+		outgoingService.update(out);
+
+		Assert.assertEquals(ZERO_QUANTITY, incoming.getQuantity());
+    }
+    
+    @Test
+    public void shouldNotUpdateIncomingWhenQuantityIsLessThanTheCurrentQuantity() {
+    	Incoming incoming = Fixture.getOneIncoming(FIVE_QUANTITY);
+    	
+    	Mockito.when(incomingService.findById((String) Mockito.any())).thenReturn(incoming);
+    	
+    	Outgoing out = Fixture.getOneOutgoing(TEN_QUANTITY);
+		outgoingService.update(out);
+
+		Assert.assertEquals(FIVE_QUANTITY, incoming.getQuantity());
+    }
+    
+    @Test
+    public void shouldUpdateIncomingWhenQuantityIsBiggerThanTheCurrentQuantity() {
+    	Incoming incoming = Fixture.getOneIncoming(TEN_QUANTITY);
+    	
+    	Mockito.when(incomingService.findById((String) Mockito.any())).thenReturn(incoming);
+    	
+    	Outgoing out = Fixture.getOneOutgoing(FIVE_QUANTITY);
+		outgoingService.update(out);
+
+		Assert.assertEquals(FIVE_QUANTITY, incoming.getQuantity());
     }
 
-	private void removeQuantity(Incoming incoming, Integer quantity) {
-		if (incoming.getQuantity() > quantity) {
-			incoming.setQuantity(incoming.getQuantity() - quantity);
-		}
-	}
 
 }
