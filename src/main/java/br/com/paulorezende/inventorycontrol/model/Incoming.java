@@ -2,9 +2,7 @@ package br.com.paulorezende.inventorycontrol.model;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -28,6 +26,8 @@ public class Incoming {
 	
 	@Min(value = 1)
 	private Integer minQuantity;
+	
+	private boolean lowerQuantity;
 	
 	public String getId() {
 		return id;
@@ -65,4 +65,11 @@ public class Incoming {
 	public void setMinQuantity(Integer minQuantity) {
 		this.minQuantity = minQuantity;
 	}
+	public boolean isLowerQuantity() {
+		return lowerQuantity;
+	}
+	public void setLowerQuantity(boolean lowerQuantity) {
+		this.lowerQuantity = lowerQuantity;
+	}
+	
 }

@@ -37,7 +37,7 @@ public class IncomingServiceImplTest {
     @Test
     public void shouldReturnAllIncomings() {
     	Mockito.when(incomingRepository.findAll()).thenReturn(
-    			Fixture.getAllIncomings(SIZE_FIND_ALL, 10));
+    			Fixture.getAllIncomings(SIZE_FIND_ALL, 10, 10));
     	
     	List<Incoming> incomings = incomingService.findAll();
     	

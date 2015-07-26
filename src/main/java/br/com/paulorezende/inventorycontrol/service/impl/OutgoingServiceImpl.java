@@ -25,7 +25,15 @@ public class OutgoingServiceImpl implements OutgoingService {
 
 	private void removeQuantity(Incoming incoming, Integer quantity) {
 		if (incoming.getQuantity() > 0 && incoming.getQuantity() > quantity) {
-			incoming.setQuantity(incoming.getQuantity() - quantity);
+			incoming.setQuantity(incoming.getQuantity() - quantity);  
+			verifyLowerQuantity(incoming);
+		}
+	}
+
+	private void verifyLowerQuantity(Incoming incoming) {
+		if ((incoming.getQuantity() <= incoming.getMinQuantity()) ||
+				(incoming.getQuantity() >= incoming.getMinQuantity() + 1) ) {
+			incoming.setLowerQuantity(true);
 		}
 	}
 

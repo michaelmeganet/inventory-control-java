@@ -34,7 +34,7 @@ public class IncomingControllerTest {
     
     @Test
     public void shouldListAllIncomings() throws Exception {
-    	Mockito.when(incomingService.findAll()).thenReturn(Fixture.getAllIncomings(3, 10));
+    	Mockito.when(incomingService.findAll()).thenReturn(Fixture.getAllIncomings(3, 10, 10));
     	
     	List<Incoming> list = incomingController.list();
     	
