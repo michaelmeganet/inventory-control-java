@@ -17,7 +17,7 @@ import br.com.paulorezende.inventorycontrol.repository.IncomingRepository;
 import br.com.paulorezende.inventorycontrol.service.IncomingService;
 
 @RunWith(MockitoJUnitRunner.class)
-public class IncomingImplTest {
+public class IncomingServiceImplTest {
 
     private static final int SIZE_FIND_ALL_INCOMINGS = 3;
 
